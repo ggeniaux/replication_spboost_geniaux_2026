@@ -16,6 +16,7 @@ whose source package is included here.
 | `package/spboost_0.7.0.tar.gz` | source package of `spboost` 0.7.0 (GPL (>= 2)) |
 | `replication_scripts/e3prime/` | Monte Carlo designs E1/E2/E3' (Section 3 and appendices) |
 | `replication_scripts/lucas/` | Lucas County, Ohio, housing application (Section 4) |
+| `replication_scripts/fig_pi_k_E1_E2.R` | spectral diagnostic $\pi_k$ for designs E1/E2 (Figure B.10); self-contained, a few minutes |
 | `replication_scripts/README.md` | detailed description of every script |
 
 The replication-level aggregates `*_all.rds` (up to 33 MB) are distributed

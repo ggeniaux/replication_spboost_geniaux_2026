@@ -48,6 +48,13 @@ Numbered pipeline:
   directly via `03_tables_figs_lucas.R` and `05_extras_lucas.R`
   without refitting.
 
+### `fig_pi_k_E1_E2.R` — spectral diagnostic (Appendix B)
+
+Self-contained script (simulates its own data with `spboost::dgp()`):
+Figure B.10 (`pi_k` for designs E1, E2 and E1 with a geographic smoother),
+plus the `spectral_overlap` screening and the dictionary approximation
+error printed to the console. Output in `$OUT_DIR` (default `output/`).
+
 ## Reproducing from scratch
 
 1. Install `spboost` 0.7.0 and its dependencies (R >= 4.2).
