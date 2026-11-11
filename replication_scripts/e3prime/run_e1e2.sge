@@ -1,0 +1,23 @@
+#!/bin/bash
+# E1/E2(i) with mstop by spatial CV (the HPC cluster/SGE): one task = one
+# replication, single-core. Complement of the HPC cluster job (reps 1-100):
+#   cd /path/to/replication_scripts/e3prime && mkdir -p logs out_e1e2cv && qsub run_e1e2.sge
+# Partial restart: already computed reps (RDS present) are skipped.
+#$ -N e1e2cv
+#$ -S /bin/bash
+#   (site-specific queue: add a line "#$ -q <queue>")
+#$ -l h_vmem=20G
+#$ -l h_rt=08:00:00
+#$ -t 101-1000
+#$ -cwd
+#$ -j y
+#$ -o logs/e1e2cv_$TASK_ID.log
+set -uo pipefail
+# export R_LIBS_USER=/path/to/Rlib   # R library containing spboost (site-dependent)
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+R="${R_BIN:-$(dirname "$(command -v Rscript)")}"   # Rscript directory (site-dependent)
+export REPS="${SGE_TASK_ID}" NCORES=1 OUT="${OUT:-out_e1e2cv}"
+echo "== $(hostname) rep=$SGE_TASK_ID $(date)"
+"$R"/Rscript -e 'stopifnot(requireNamespace("spboost", quietly=TRUE)); cat("spboost", as.character(packageVersion("spboost")), "\n")' || { echo "[abort] spboost not found"; exit 1; }
+"$R"/Rscript run_e1e2.R
+echo "DONE rep=$SGE_TASK_ID $(date)"

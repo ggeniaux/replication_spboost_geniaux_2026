@@ -1,0 +1,25 @@
+#!/bin/bash
+# E3' pilot (spboost, the HPC cluster/SGE): 6 tasks x 36 cores, each task
+# processes a block of ~17 replications (18 pairs each) via mclapply.
+#   cd /path/to/replication_scripts/e3prime && mkdir -p logs && qsub run_e3prime.sge
+# Partial restart: already computed pairs (RDS present) are skipped.
+#$ -N e3pilot
+#$ -S /bin/bash
+#   (site-specific queue: add a line "#$ -q <queue>")
+#$ -pe thread 36
+#$ -l h_vmem=3G
+#$ -l h_rt=04:00:00
+#$ -t 1-6
+#$ -cwd
+#$ -j y
+#$ -o logs/e3pilot_$JOB_ID.$TASK_ID.log
+set -uo pipefail
+# export R_LIBS_USER=/path/to/Rlib   # R library containing spboost (site-dependent)
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+R="${R_BIN:-$(dirname "$(command -v Rscript)")}"   # Rscript directory (site-dependent)
+k=${SGE_TASK_ID}; r0=$((1 + 17 * (k - 1))); r1=$((17 * k)); [ "$r1" -gt 100 ] && r1=100
+export REPS="${r0}:${r1}" NCORES=$NSLOTS OUT=out_pilot
+echo "== $(hostname) task $k ($NSLOTS cores) REPS=$REPS $(date)"
+"$R"/Rscript -e 'stopifnot(requireNamespace("spboost", quietly=TRUE)); cat("spboost", as.character(packageVersion("spboost")), "from", find.package("spboost"), "\n")' || { echo "[abort] spboost not found"; exit 1; }
+"$R"/Rscript run_e3prime.R
+echo "DONE task $k $(date)"

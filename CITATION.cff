@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this material, please cite the paper below."
+type: software
+title: "Replication material for: Flexible nonlinear spatial autoregressive models under spatial confounding: a gradient boosting approach with closed-form estimation"
+authors:
+  - family-names: Geniaux
+    given-names: Ghislain
+    orcid: "https://orcid.org/0000-0003-3256-2406"
+    affiliation: "INRAE, UR Ecodéveloppement, Avignon, France"
+repository-code: "https://github.com/ggeniaux/replication_spboost_geniaux_2026"
+license: GPL-2.0-or-later
+version: "1.0.0"
+date-released: "2026-11-11"
+keywords:
+  - spatial autoregressive models
+  - gradient boosting
+  - spatial confounding
+  - R
+preferred-citation:
+  type: article
+  title: "Flexible nonlinear spatial autoregressive models under spatial confounding: a gradient boosting approach with closed-form estimation"
+  authors:
+    - family-names: Geniaux
+      given-names: Ghislain
+      orcid: "https://orcid.org/0000-0003-3256-2406"
+  year: 2026
+  notes: "Preprint"
